@@ -10,87 +10,130 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Light gray background */
+            background-color: #eef2f6; /* Soft blue-gray background */
+            line-height: 1.6;
+            color: #334155; /* Slate-700 */
         }
         .form-container {
             max-width: 800px;
             margin: 2rem auto;
-            padding: 2rem;
+            padding: 2.5rem;
             background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0; /* Light border */
         }
         .question-group {
-            margin-bottom: 1.5rem;
-            padding: 1.25rem;
-            background-color: #f9fafb;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f8fafc; /* Lighter background for groups */
+            border-radius: 10px;
+            border-left: 5px solid #3b82f6; /* Blue-500 accent border */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .question-group:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
         .question-title {
-            font-size: 1.125rem; /* text-lg */
-            font-weight: 600; /* font-semibold */
-            margin-bottom: 0.75rem;
-            color: #1f2937; /* Gray-900 */
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700; /* font-bold */
+            margin-bottom: 1rem;
+            color: #1a202c; /* Darker text for titles */
         }
         .radio-option {
             display: flex;
             align-items: center;
-            margin-bottom: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 8px;
+            background-color: #f1f5f9; /* Light gray for options */
             cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #cbd5e1; /* Gray-300 border */
+        }
+        .radio-option:hover {
+            background-color: #e0f2fe; /* Light blue on hover */
+            border-color: #93c5fd; /* Blue-300 border on hover */
         }
         .radio-option input[type="radio"] {
-            margin-right: 0.75rem;
+            margin-right: 1rem;
             accent-color: #2563eb; /* Blue-600 */
+            transform: scale(1.2); /* Slightly larger radio buttons */
         }
         textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            min-height: 100px;
+            padding: 1rem;
+            border: 1px solid #cbd5e1; /* Gray-300 */
+            border-radius: 8px;
+            min-height: 120px;
             resize: vertical;
             font-size: 1rem;
+            color: #475569; /* Slate-600 */
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6; /* Blue-500 on focus */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* Blue-500 ring */
         }
         .text-input-other {
             display: none; /* 기본적으로 숨김 */
-            margin-left: 0.5rem;
-            padding: 0.25rem 0.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            width: 150px; /* 적절한 너비 설정 */
+            margin-left: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            width: 180px; /* 적절한 너비 설정 */
+            color: #475569;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .text-input-other:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
         }
         .submit-button {
             width: 100%;
-            padding: 1rem;
-            background-color: #2563eb; /* Blue-600 */
+            padding: 1.25rem;
+            background-image: linear-gradient(to right, #3b82f6, #2563eb); /* Blue gradient */
             color: #ffffff;
             font-weight: 700; /* font-bold */
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
+            font-size: 1.125rem; /* text-lg */
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease-in-out;
         }
         .submit-button:hover {
-            background-color: #1d4ed8; /* Blue-700 */
+            background-image: linear-gradient(to right, #2563eb, #1d4ed8); /* Darker gradient on hover */
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
         }
         .message-box {
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border-radius: 8px;
-            font-weight: 500;
+            padding: 1.25rem;
+            margin-top: 2rem;
+            border-radius: 10px;
+            font-weight: 600;
             text-align: center;
+            font-size: 1.1rem;
         }
         .message-box.success {
-            background-color: #d1fae5; /* Green-100 */
-            color: #065f46; /* Green-800 */
+            background-color: #dcfce7; /* Green-100 */
+            color: #16a34a; /* Green-600 */
+            border: 1px solid #86efac;
         }
         .message-box.error {
             background-color: #fee2e2; /* Red-100 */
-            color: #991b1b; /* Red-800 */
+            color: #dc2626; /* Red-600 */
+            border: 1px solid #fca5a5;
         }
         .message-box.loading {
             background-color: #e0f2fe; /* Blue-100 */
-            color: #1e40af; /* Blue-800 */
+            color: #2563eb; /* Blue-600 */
+            border: 1px solid #93c5fd;
         }
     </style>
 </head>
@@ -105,7 +148,7 @@
         <!-- 설문 대상 선택 -->
         <div id="surveySelection" class="question-group text-center mb-8">
             <p class="question-title">어떤 설문지에 응답하시겠습니까?</p>
-            <div class="flex justify-center space-x-6 mt-4">
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mt-4">
                 <label class="radio-option">
                     <input type="radio" name="survey_type_selector" value="participant" id="selectParticipant"> 참여자용 (초등학생)
                 </label>
@@ -562,14 +605,15 @@
             requiredRadios.forEach(radio => {
                 const name = radio.name;
                 if (!radioGroups[name]) {
-                    radioGroups[name] = false;
+                    radioGroups[name] = false; // Initialize to false for each group
                 }
                 if (radio.checked) {
-                    radioGroups[name] = true;
+                    radioGroups[name] = true; // Set to true if any radio in the group is checked
                 }
             });
             for (const groupName in radioGroups) {
                 if (!radioGroups[groupName]) {
+                    console.error(`Missing required radio for group: ${groupName}`); // 디버깅용 로그 추가
                     allRequiredRadiosChecked = false;
                     break;
                 }
