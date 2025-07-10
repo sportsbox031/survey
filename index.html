@@ -598,33 +598,38 @@
             }
 
 
-            // 필수 응답 확인 (간단한 클라이언트 측 유효성 검사)
-            const requiredRadios = form.querySelectorAll('input[type="radio"][required]');
-            let allRequiredRadiosChecked = true;
-            const radioGroups = {};
-            requiredRadios.forEach(radio => {
-                const name = radio.name;
-                if (!radioGroups[name]) {
-                    radioGroups[name] = false; // Initialize to false for each group
-                }
-                if (radio.checked) {
-                    radioGroups[name] = true; // Set to true if any radio in the group is checked
+            // --- 수정된 필수 응답 확인 로직 ---
+            let allRequiredQuestionsAnswered = true;
+            const requiredRadioGroupNames = new Set();
+
+            // Identify all unique names of radio groups that have at least one 'required' radio button
+            form.querySelectorAll('input[type="radio"][required]').forEach(radio => {
+                requiredRadioGroupNames.add(radio.name);
+            });
+
+            // For each identified required radio group, check if any option is selected
+            requiredRadioGroupNames.forEach(groupName => {
+                const radiosInGroup = form.querySelectorAll(`input[type="radio"][name="${groupName}"]`);
+                let isGroupChecked = false;
+                radiosInGroup.forEach(radio => {
+                    if (radio.checked) {
+                        isGroupChecked = true;
+                    }
+                });
+                if (!isGroupChecked) {
+                    console.error(`Missing required radio for group (refined check): ${groupName}`); // 디버깅용 로그 추가
+                    allRequiredQuestionsAnswered = false;
                 }
             });
-            for (const groupName in radioGroups) {
-                if (!radioGroups[groupName]) {
-                    console.error(`Missing required radio for group: ${groupName}`); // 디버깅용 로그 추가
-                    allRequiredRadiosChecked = false;
-                    break;
-                }
-            }
 
-            if (!allRequiredRadiosChecked) {
+            if (!allRequiredQuestionsAnswered) {
                 messageBox.classList.remove('hidden');
                 messageBox.classList.add('error');
                 messageBox.textContent = '모든 필수 질문에 응답해주세요.';
                 return;
             }
+            // --- 수정된 필수 응답 확인 로직 끝 ---
+
 
             // 제출 중 메시지 표시
             messageBox.classList.remove('hidden', 'success', 'error');
