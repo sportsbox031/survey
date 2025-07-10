@@ -207,6 +207,12 @@
                     </div>
                 </div>
 
+                <!-- 5. 추가적으로 제안하고 싶은 사항 (초등학생용) -->
+                <div class="question-group">
+                    <p class="question-title">5. '수상한놀이' 행사를 위해 추가적으로 제안하고 싶은 사항이 있으시면 자유롭게 작성해주세요.</p>
+                    <textarea name="p_q5_suggestions" placeholder="자유롭게 작성"></textarea>
+                </div>
+
                 <button type="submit" class="submit-button">설문 제출하기</button>
                 <div id="participantMessageBox" class="message-box hidden"></div>
             </form>
@@ -478,7 +484,7 @@
     <script>
         // 이 URL을 구글 앱스 스크립트 웹 앱으로 배포한 후 얻은 URL로 변경해야 합니다.
         // 예시: const FORM_ACTION_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
-        const FORM_ACTION_URL = 'https://script.google.com/macros/s/AKfycbxF3iDpRIbRxqYMaFh-aBwnLks2KfHRIGbxn8IHd5LJxART5do858nUzIat4eQqrHWlWA/exec'; // 여기에 구글 앱스 스크립트 웹 앱 URL을 붙여넣으세요.
+        const FORM_ACTION_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; // 여기에 구글 앱스 스크립트 웹 앱 URL을 붙여넣으세요.
 
         const surveyTypeSelectors = document.querySelectorAll('input[name="survey_type_selector"]');
         const participantFormContainer = document.getElementById('participantFormContainer');
