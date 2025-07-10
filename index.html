@@ -527,7 +527,9 @@
     <script>
         // 이 URL을 구글 앱스 스크립트 웹 앱으로 배포한 후 얻은 URL로 변경해야 합니다.
         // 예시: const FORM_ACTION_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
-        const FORM_ACTION_URL = 'https://script.google.com/macros/s/AKfycbxF3iDpRIbRxqYMaFh-aBwnLks2KfHRIGbxn8IHd5LJxART5do858nUzIat4eQqrHWlWA/exec'; // 여기에 구글 앱스 스크립트 웹 앱 URL을 붙여넣으세요.
+        // 중요: 배포된 구글 앱스 스크립트 웹 앱 URL을 정확히 입력해야 합니다.
+        // 이 URL은 'https://script.google.com/macros/s/...' 형태로 시작합니다.
+        const FORM_ACTION_URL = 'https://script.google.com/macros/s/AKfycbxF3iDpRIbRxqYMaFh-aBwnLks2KfHRIGbxn8IHd5LJxART5do858nUzIat4eQqrHWlWA/exec'; 
 
         const surveyTypeSelectors = document.querySelectorAll('input[name="survey_type_selector"]');
         const participantFormContainer = document.getElementById('participantFormContainer');
@@ -568,9 +570,9 @@
             messageBox.classList.add('hidden');
             messageBox.textContent = '';
 
-            // 폼 데이터 수집
+            // 폼 데이터 수집 및 URLSearchParams로 변환
             const formData = new FormData(form);
-            const data = { surveyType: surveyType }; // 설문 유형 추가
+            const data = {};
             for (let [key, value] of formData.entries()) {
                 // '기타' 옵션 처리
                 if (key.endsWith('_other') && value.trim() !== '') {
@@ -580,6 +582,10 @@
                     data[key] = value;
                 }
             }
+            data.surveyType = surveyType; // 설문 유형 추가
+
+            const urlEncodedData = new URLSearchParams(data).toString();
+
 
             // '기타' 라디오 버튼이 선택되었지만 텍스트 필드가 비어있는 경우 처리 (인솔자용만 해당)
             if (surveyType === 'instructor') {
@@ -637,17 +643,17 @@
             messageBox.textContent = '설문 제출 중... 잠시만 기다려주세요.';
 
             try {
+                // Content-Type을 application/x-www-form-urlencoded로 설정
                 const response = await fetch(FORM_ACTION_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // CORS 문제를 피하기 위해 no-cors 모드 사용 (실제 응답을 받지 못함)
+                    mode: 'no-cors', 
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: JSON.stringify(data),
+                    body: urlEncodedData, // URLSearchParams로 변환된 데이터 전송
                 });
 
                 // no-cors 모드에서는 response.ok를 확인할 수 없으므로, 성공 메시지를 바로 표시
-                // 실제 서버 응답을 확인하려면 CORS 설정을 앱스 스크립트에서 허용해야 함
                 messageBox.classList.remove('loading');
                 messageBox.classList.add('success');
                 messageBox.textContent = '설문이 성공적으로 제출되었습니다. 감사합니다!';
